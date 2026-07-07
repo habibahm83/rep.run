@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Figma__get_design_context",
+      "Bash(curl -sL -o screenshot_full.png \"https://www.figma.com/api/mcp/asset/1c16cd77-1f9f-417d-99a3-d62b8006e3b8\")",
+      "mcp__claude_ai_Figma__get_variable_defs",
+      "Bash(curl -sL -o hero.png \"https://www.figma.com/api/mcp/asset/e99c27bc-5eb1-4553-bdaa-4e7c11c648c7\")",
+      "Bash(curl -sL -o howitworks.png \"https://www.figma.com/api/mcp/asset/69fb723c-394e-47f4-8af5-2f591b59aca8\")",
+      "Bash(curl -sL -o othersections.png \"https://www.figma.com/api/mcp/asset/57fab5a5-18df-4c31-8a83-73b3076d34e1\")",
+      "Bash(curl -sL -o footer.png \"https://www.figma.com/api/mcp/asset/56dd6da5-e97e-4c03-a007-73ca97467216\")",
+      "Bash(curl -sL -o feature_block.png \"https://www.figma.com/api/mcp/asset/3330e6dc-46e3-4e21-aed1-b459fbf96bdd\")",
+      "Read(//Applications/**)",
+      "Bash(npm ls *)",
+      "Bash(node -e \"require.resolve\\('puppeteer-core'\\); console.log\\('puppeteer-core OK'\\)\")",
+      "Bash(node -e \"require.resolve\\('puppeteer'\\); console.log\\('puppeteer OK'\\)\")",
+      "Bash(npm root *)",
+      "mcp__claude_ai_Figma__download_assets",
+      "Bash(sips -c 70 230 --cropOffset 55 55 hero.png --out logo_crop.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight logo_crop.png)",
+      "Bash(sips -c 60 320 --cropOffset 90 340 footer.png --out footer_badges_crop.png)",
+      "Bash(sips -g pixelWidth mobile.png)",
+      "Bash(awk '{print $1\" lines\"}')",
+      "Bash(sips -g pixelWidth -g pixelHeight /Volumes/External/rep.run/assets/hero-bg.jpg)",
+      "Bash(curl -sL -o test_phone3x.png \"https://www.figma.com/api/mcp/asset/21f1a108-08be-46cd-ad32-341ab9853e3b\")",
+      "Bash(curl -sL -o test_ar2x.png \"https://www.figma.com/api/mcp/asset/783f0241-0205-401f-8817-1322b6e078b7\")",
+      "Bash(sips -g pixelWidth -g pixelHeight test_phone3x.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight test_ar2x.png)",
+      "Bash(python3 -c \"from PIL import Image; im=Image.open\\('test_phone3x.png'\\); im.crop\\(\\(0,0,im.width,int\\(im.height*0.28\\)\\)\\).save\\('test_phone_top.png'\\)\")",
+      "Bash(curl -sL -o _coupon_mask.png \"https://www.figma.com/api/mcp/asset/d3cdd1bc-95cd-4386-90a2-dc4311ec2224\")",
+      "Bash(rm -f _coupon_mask.png _prev_*.png)",
+      "Bash(rm -f _*.png)",
+      "Bash(ls _*)"
+    ]
+  }
+}

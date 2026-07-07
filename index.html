@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rep - Join the hunt with Rep!</title>
+<meta name="description" content="Step into a universe where exploration, treasure hunting, and social connection intertwine. Join the hunt with Rep.">
+<link rel="icon" href="assets/icons/logo-footer.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================= Design tokens ============================= */
+:root{
+  --purple:#5300ff;
+  --purple-600:#4a13e0;
+  --ink:#000000;
+  --gray-90:#1a1a22;
+  --gray-80:#3a3a3a;
+  --gray-70:#757575;
+  --gray-60:#a6a6aa;
+  --gray-40:#cbcbd4;
+  --gray-20:#f8f7fa;
+  --white:#ffffff;
+  --orange:#fdbc1f;
+  --red:#fe8668;
+  --indigo:#4269f2;
+  --green:#2fd3a5;
+  --footer-bg:#1b1b24;
+  --container:1200px;
+  --radius-card:20px;
+  --radius-btn:10px;
+  --shadow-card:0 1px 1px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.04), 0 16px 24px rgba(0,0,0,.06);
+  --shadow-phone:0 24px 44px rgba(38,18,86,.22);
+  --hero-grad:radial-gradient(125% 120% at 12% 8%, #8b3df0 0%, #6417e6 46%, #4d11d6 100%);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Lato',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--gray-80);background:var(--white);line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+.container{max-width:var(--container);margin:0 auto;padding:0 32px;width:100%}
+
+/* ============================= Buttons ============================= */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-weight:700;font-size:16px;border-radius:var(--radius-btn);
+  padding:12px 26px;border:2px solid transparent;cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+  white-space:nowrap;
+}
+.btn-primary{background:var(--purple);color:#fff;box-shadow:0 8px 18px rgba(83,0,255,.28)}
+.btn-primary:hover{background:var(--purple-600);transform:translateY(-2px);box-shadow:0 12px 24px rgba(83,0,255,.34)}
+.btn-white{background:#fff;color:var(--purple)}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(0,0,0,.18)}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-sm{padding:9px 20px;font-size:15px}
+
+/* circular play button (Figma play icon inside) */
+.play-btn{
+  width:55px;height:55px;border-radius:50%;background:#fff;
+  display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+  box-shadow:0 8px 20px rgba(0,0,0,.16);cursor:pointer;transition:transform .18s ease;
+  border:none;
+}
+.play-btn:hover{transform:scale(1.07)}
+.play-btn img{width:22px;height:22px}
+
+/* ============================= Store badges (Figma assets) ============================= */
+.badges{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.badge-img img{height:48px;width:auto}
+.badge-img{transition:transform .15s ease}
+.badge-img:hover{transform:translateY(-2px)}
+
+/* download-app label with Figma arrow */
+.download-label{display:flex;align-items:center;gap:12px;font-weight:900;font-size:18px;margin-bottom:16px;color:#fff}
+.download-label img{width:46px;height:auto}
+
+/* ============================= Section headers ============================= */
+.section{position:relative}
+.eyebrow{text-align:center;margin-bottom:44px}
+.eyebrow .kicker{font-size:18px;font-weight:700;color:var(--gray-60);display:block;margin-bottom:14px}
+.eyebrow .kicker::after{content:"";display:block;width:78px;height:4px;border-radius:4px;background:var(--purple);margin:12px auto 0}
+.eyebrow h2{font-size:clamp(30px,4vw,40px);font-weight:900;color:var(--ink);line-height:1.12;letter-spacing:-.5px}
+.eyebrow .sub{margin-top:16px;font-size:18px;color:var(--gray-70)}
+.watch{display:inline-flex;align-items:center;gap:14px;margin-top:22px;color:var(--gray-70);font-weight:700;font-size:16px}
+.watch .play-btn{width:44px;height:44px}
+.watch .play-btn img{width:16px;height:16px}
+
+/* ============================= Decorations ============================= */
+.deco{position:absolute;pointer-events:none;z-index:0}
+.deco.circle{border-radius:50%}
+.deco.ring{border-radius:50%;background:transparent}
+.deco.diamond{border-radius:9px;background:linear-gradient(135deg,#8b3df0,#5300ff);transform:rotate(45deg);opacity:.9}
+.deco.tri{width:0;height:0;background:transparent}
+@media(max-width:760px){.deco{display:none}}
+
+/* ============================= Header / Nav ============================= */
+.site-header{position:absolute;top:0;left:0;right:0;z-index:40}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:34px 0;gap:24px}
+.nav-left{display:flex;align-items:center;gap:52px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .logo{width:44px;height:44px;flex:0 0 auto}
+.brand .word{font-size:26px;font-weight:900;color:#fff;letter-spacing:.3px}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{color:#fff;font-weight:700;font-size:16px;opacity:.92;transition:opacity .15s}
+.nav-links a:hover{opacity:1}
+.nav-actions{display:flex;align-items:center;gap:14px}
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px;padding:8px}
+.nav-toggle span{width:26px;height:3px;background:#fff;border-radius:3px;transition:.25s}
+
+/* ============================= Hero ============================= */
+.hero{position:relative;padding-bottom:90px;overflow:hidden}
+.hero-bg{
+  position:absolute;top:0;left:0;right:0;height:96%;z-index:0;
+  background-image:
+    linear-gradient(115deg, rgba(147,56,238,.93) 0%, rgba(114,31,235,.89) 40%, rgba(96,23,227,.84) 70%, rgba(88,21,222,.82) 100%),
+    url(assets/hero-bg.jpg);
+  background-size:cover, cover;
+  background-position:center, 18% 40%;
+  background-repeat:no-repeat;
+  clip-path:polygon(0 0,100% 0,100% 72%,58% 97%,0 86%);
+}
+.hero-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 55% at 82% 26%,rgba(255,255,255,.08),transparent 68%)}
+.hero-inner{position:relative;z-index:5;padding-top:150px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);gap:20px;align-items:center}
+.hero-copy{max-width:560px}
+.hero-copy h1{color:#fff;font-weight:900;font-size:clamp(40px,5.4vw,64px);line-height:1.02;letter-spacing:-1.5px;margin-bottom:26px}
+.hero-copy h1 span{display:block}
+.hero-copy p{color:rgba(255,255,255,.92);font-size:20px;line-height:1.55;max-width:490px;margin-bottom:34px}
+.hero-cta{display:flex;align-items:center;gap:22px;margin-bottom:40px}
+
+/* hero media / phones */
+.hero-media{position:relative;height:560px}
+.hero-media .phone{position:absolute;filter:drop-shadow(var(--shadow-phone))}
+.hero-media .phone.back{width:250px;right:8px;top:6px;transform:rotate(4deg)}
+.hero-media .phone.front{width:250px;right:180px;top:36px;z-index:3}
+.hero-media .msg-card{position:absolute;width:150px;left:20px;top:200px;z-index:4;filter:drop-shadow(0 16px 26px rgba(30,15,70,.25))}
+.hero-media .h-ico{position:absolute;z-index:2}
+.hero-media .h-ico.chat{left:60px;top:24px;width:36px}
+.hero-media .h-ico.pad{right:24px;top:-26px;width:60px}
+
+/* strategic partners */
+.partners{position:relative;z-index:8;margin:56px auto 0;max-width:420px;background:#fff;border-radius:16px;box-shadow:var(--shadow-card);padding:22px 30px;text-align:center}
+.partners .p-title{font-size:14px;font-weight:700;color:var(--gray-70);margin-bottom:16px}
+.partners .p-logos{display:flex;align-items:center;justify-content:center;gap:40px}
+.partners .p-logos img{height:30px;width:auto}
+
+/* ============================= How It Works ============================= */
+.how{padding:96px 0 90px;background:#fff}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;position:relative;z-index:2}
+.step{background:#fff;border-radius:var(--radius-card);box-shadow:var(--shadow-card);overflow:hidden;transition:transform .2s ease, box-shadow .2s ease}
+.step:hover{transform:translateY(-6px);box-shadow:0 24px 40px rgba(30,15,70,.14)}
+.step img{width:100%;display:block}
+.step-arrow{position:absolute;top:36%;z-index:5;width:52px;height:52px;border-radius:50%;background:#fff;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center}
+.step-arrow img{width:26px;height:26px}
+.step-arrow.a1{left:calc(33.33% - 26px)}
+.step-arrow.a2{left:calc(66.66% - 26px)}
+
+/* ============================= Features ============================= */
+.features{padding:70px 0 60px;background:#fff;position:relative}
+.feature{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:40px;padding:20px 0;position:relative}
+.feature.reverse .feature-text{order:2}
+.feature.reverse .feature-media{order:1}
+.feature-text{max-width:460px}
+.feature.reverse .feature-text{margin-left:auto}
+.feature-text h3{font-size:clamp(24px,2.6vw,30px);font-weight:900;color:var(--ink);line-height:1.15;margin-bottom:18px;letter-spacing:-.4px}
+.feature-text p{font-size:16px;color:var(--gray-80);line-height:1.6;margin-bottom:26px}
+
+/* phone clusters */
+.cluster{position:relative;height:440px;display:flex;align-items:center;justify-content:center}
+.cluster .phone{position:absolute;filter:drop-shadow(var(--shadow-phone));border-radius:22px}
+.cluster.trio .phone{width:210px}
+.cluster.trio .p-left{transform:translateX(-150px) translateY(6px) rotate(-5deg)}
+.cluster.trio .p-mid{z-index:3;transform:translateY(-8px) scale(1.04)}
+.cluster.trio .p-right{transform:translateX(150px) translateY(6px) rotate(5deg)}
+.cluster.duo .phone{width:220px}
+.cluster.duo .p-left{transform:translateX(-95px) translateY(8px) rotate(-4deg)}
+.cluster.duo .p-right{z-index:2;transform:translateX(95px) rotate(4deg)}
+.cluster.bio{justify-content:flex-start;padding-left:6%}
+.cluster.bio .phone{position:absolute;width:220px;left:2%;top:8px;z-index:1}
+.cluster.bio .bio-photo{position:absolute;width:340px;left:26%;top:70px;z-index:2;border-radius:16px;filter:drop-shadow(0 22px 40px rgba(30,15,70,.22))}
+.cluster.earn{justify-content:flex-start;padding-left:4%}
+.cluster.earn .phone{position:absolute;width:210px}
+.cluster.earn .p-left{left:0;top:4px;transform:rotate(-4deg)}
+.cluster.earn .p-right{left:16%;top:0;z-index:1}
+.cluster.earn .coupon{position:absolute;width:150px;left:40%;top:52px;z-index:3;filter:drop-shadow(0 18px 30px rgba(30,15,70,.24));border-radius:14px}
+
+/* ============================= Desktop band ============================= */
+.desktop-band{position:relative;margin-top:70px;background:var(--hero-grad);clip-path:polygon(0 12%,100% 0,100% 88%,0 100%);padding:120px 0;overflow:hidden}
+.desktop-inner{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.desktop-img{position:relative}
+.desktop-img img{width:100%;max-width:none;transform:rotate(-4deg);filter:drop-shadow(0 30px 50px rgba(20,8,60,.4))}
+.desktop-copy .kick{color:#fff;font-weight:700;font-size:18px;opacity:.9}
+.desktop-copy h2{color:#fff;font-weight:900;font-size:clamp(30px,4vw,42px);margin:2px 0 18px}
+.desktop-copy p{color:rgba(255,255,255,.9);font-size:18px;line-height:1.6;max-width:440px}
+
+/* ============================= AR / AI ============================= */
+.arai{padding:70px 0 40px;background:#fff;position:relative;overflow:hidden}
+.arai .ar-visual{margin-top:20px;display:flex;justify-content:center;position:relative;z-index:2}
+.arai .ar-visual img{width:min(1000px,92%)}
+
+/* ============================= Contact ============================= */
+.contact{padding:20px 0 90px;background:#fff;position:relative;overflow:hidden}
+.contact-form{max-width:1000px;margin:44px auto 0;display:grid;grid-template-columns:1fr 1fr auto;grid-template-rows:auto auto;gap:16px;position:relative;z-index:2}
+.field{display:flex;flex-direction:column}
+.field.name{grid-column:1;grid-row:1}
+.field.email{grid-column:1;grid-row:2}
+.field.message{grid-column:2;grid-row:1 / span 2}
+.input,.textarea{border:1.5px solid var(--gray-40);border-radius:12px;padding:16px 18px;font-family:inherit;font-size:15px;color:var(--gray-80);background:#fff;width:100%;transition:border-color .15s, box-shadow .15s}
+.input::placeholder,.textarea::placeholder{color:var(--gray-60)}
+.input:focus,.textarea:focus{outline:none;border-color:var(--purple);box-shadow:0 3px 10px rgba(83,0,255,.12)}
+.textarea{height:100%;min-height:136px;resize:vertical}
+.send-btn{grid-column:3;grid-row:1 / span 2;width:56px;background:linear-gradient(180deg,#7a2be8,#5300ff);border:0;border-radius:12px;cursor:pointer;color:#fff;font-family:inherit;font-weight:700;font-size:15px;box-shadow:0 10px 22px rgba(83,0,255,.3);transition:transform .18s, filter .18s}
+.send-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+
+/* ============================= Footer ============================= */
+.footer{background:var(--footer-bg);color:#fff;padding:44px 0 30px}
+.footer-grid{display:grid;grid-template-columns:1.3fr 1.3fr 1.4fr .8fr;gap:40px;align-items:start}
+.footer .brand .word{color:#fff}
+.footer-col h4{font-size:16px;font-weight:900;margin-bottom:18px}
+.footer .download-label{color:#fff;margin-bottom:16px}
+.footer .badge-img img{height:40px}
+.newsletter{display:flex;gap:0;max-width:300px}
+.newsletter input{flex:1;border:0;border-radius:8px 0 0 8px;padding:13px 16px;font-family:inherit;font-size:14px}
+.newsletter input:focus{outline:none}
+.newsletter button{background:var(--gray-40);color:var(--gray-90);border:0;border-radius:0 8px 8px 0;padding:0 22px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s}
+.newsletter button:hover{background:#fff}
+.social{display:flex;gap:18px}
+.social a{width:32px;height:32px;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.social a:hover{transform:translateY(-3px)}
+.social img{width:28px;height:28px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:8px;color:var(--gray-60);font-size:14px;flex-wrap:wrap;gap:14px}
+.footer-bottom .legal{display:flex;gap:20px}
+.footer-bottom .legal a{color:var(--gray-60);transition:color .15s}
+.footer-bottom .legal a:hover{color:#fff}
+
+/* back to top (Figma chevron-up) */
+.to-top{position:fixed;right:26px;bottom:26px;width:52px;height:52px;border-radius:50%;background:var(--purple);border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:60;box-shadow:0 10px 24px rgba(83,0,255,.4);opacity:0;visibility:hidden;transform:translateY(12px);transition:.25s}
+.to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.to-top img{width:22px;height:22px}
+.to-top:hover{background:var(--purple-600)}
+
+/* ============================= Responsive ============================= */
+@media(max-width:1024px){
+  .container{padding:0 28px}
+  .hero-inner{grid-template-columns:1fr;gap:10px}
+  .hero-media{height:440px;margin-top:10px}
+  .desktop-inner{grid-template-columns:1fr;gap:50px}
+  .desktop-img img{width:100%;transform:rotate(-3deg)}
+  .feature{grid-template-columns:1fr;gap:24px}
+  .feature.reverse .feature-text,.feature.reverse .feature-media{order:0}
+  .feature-text{max-width:none;margin:0 auto;text-align:center}
+  .feature-text p{margin-left:auto;margin-right:auto}
+  .feature.reverse .feature-text{margin:0 auto}
+  .cluster{height:420px}
+}
+@media(max-width:900px){
+  .nav-links,.nav-actions{display:none}
+  .nav-toggle{display:flex}
+  .site-header.open .nav-links{display:flex;flex-direction:column;position:absolute;top:88px;left:16px;right:16px;background:#fff;border-radius:16px;padding:20px;gap:16px;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+  .site-header.open .nav-links a{color:var(--gray-90)}
+  .site-header.open .nav-actions{display:flex;flex-direction:column;position:absolute;top:300px;left:16px;right:16px;background:#fff;border-radius:16px;padding:0 20px 20px;gap:12px}
+  .site-header.open .nav-actions .btn{border-color:var(--purple);color:var(--purple)}
+  .steps{grid-template-columns:1fr;gap:30px;max-width:400px;margin:0 auto}
+  .step-arrow{display:none}
+}
+@media(max-width:760px){
+  .container{padding:0 22px}
+  .hero-inner{padding-top:120px}
+  .hero-cta{flex-wrap:wrap;gap:16px}
+  .cluster.trio .phone,.cluster.duo .phone{width:170px}
+  .cluster.trio .p-left{transform:translateX(-110px) rotate(-5deg)}
+  .cluster.trio .p-right{transform:translateX(110px) rotate(5deg)}
+  .cluster.bio{justify-content:center;padding:0}
+  .cluster.bio .phone{left:6%}
+  .cluster.bio .bio-photo{width:56%;left:34%}
+  .cluster.earn .coupon{width:120px}
+  .contact-form{grid-template-columns:1fr;grid-template-rows:auto}
+  .field.name,.field.email,.field.message{grid-column:1;grid-row:auto}
+  .textarea{min-height:150px}
+  .send-btn{grid-column:1;grid-row:auto;width:100%;height:52px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:30px}
+  .footer-bottom{justify-content:center;text-align:center}
+  .partners{max-width:none;width:100%;padding:20px 18px}
+  .partners .p-logos{gap:26px}
+  .partners .p-logos img{height:26px}
+}
+@media(max-width:520px){
+  .footer-grid{grid-template-columns:1fr}
+  .badges{justify-content:center}
+  .partners{padding:18px 14px}
+  .partners .p-logos{gap:18px;flex-wrap:wrap}
+  .partners .p-logos img{height:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================= HEADER ============================= -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a href="#" class="brand" aria-label="Rep home">
+          <img class="logo" src="assets/icons/logo.png" alt="Rep logo">
+          <span class="word">Rep</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#arai">AI / AR</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-ghost btn-sm">Log In</a>
+        <a href="#" class="btn btn-ghost btn-sm">Sign Up</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================= HERO ============================= -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <span class="deco diamond" style="width:52px;height:52px;left:76%;top:88%"></span>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h1><span>Join the</span><span>hunt with Rep!</span></h1>
+        <p>Step into a universe where exploration, treasure hunting, and social connection intertwine. Embark on thrilling hunts, solve intriguing clues, earn rewards and connect with fellow adventurers. With Rep, let the world become your interactive playground.</p>
+        <div class="hero-cta">
+          <a href="#how" class="btn btn-white">Discover More</a>
+          <button class="play-btn" aria-label="Watch video"><a href="https://www.youtube.com/watch?v=2niqAnJ7Rks" target="_blank"><img src="assets/icons/play.png" alt=""></a></button>
+        </div>
+        <div class="hero-download">
+          <div class="download-label">Download App <img src="assets/icons/download-arrow.png" alt=""></div>
+          <div class="badges">
+            <a href="https://play.google.com/store/apps/details?id=com.rawbots.rep&hl=en" target="_blank" class="badge-img" aria-label="Get it on Google Play"><img src="assets/icons/badge-google-light.png" alt="Get it on Google Play"></a>
+            <a href="https://apps.apple.com/us/app/rep-run/id6446437794" target="_blank" class="badge-img" aria-label="Download on the App Store"><img src="assets/icons/badge-apple-light.png" alt="Download on the App Store"></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <img class="h-ico chat" src="assets/icons/annotation.png" alt="">
+        <img class="h-ico pad" src="assets/icons/gamepad.png" alt="">
+        <img class="phone back" src="assets/hero-phone-back.png" alt="Rep app map and treasure chest screen">
+        <img class="phone front" src="assets/hero-phone-front.png" alt="Rep app social feed screen">
+        <img class="msg-card" src="assets/hero-msg-card.png" alt="Private message preview from Neil">
+      </div>
+    </div>
+
+    <div class="partners">
+      <div class="p-title">Strategic Partners</div>
+      <div class="p-logos">
+        <img src="assets/icons/gala.png" alt="GALA">
+        <img src="assets/icons/bithappier.png" alt="Bit Happier">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= HOW IT WORKS ============================= -->
+<section class="how section" id="how">
+  <span class="deco ring" style="width:28px;height:28px;border:5px solid var(--purple);left:16%;top:8%"></span>
+  <span class="deco circle" style="width:22px;height:22px;background:var(--indigo);right:12%;top:20%"></span>
+  <span class="deco diamond" style="width:52px;height:52px;left:83%;top:62%;opacity:.85"></span>
+  <div class="container">
+    <div class="eyebrow">
+      <span class="kicker">Rep is invite only</span>
+      <h2>How It Works</h2>
+      <span class="watch">Watch Video
+        <span class="play-btn"><img src="assets/icons/play-watch.png" alt=""></span>
+      </span>
+    </div>
+    <div class="steps">
+      <div class="step-arrow a1"><img src="assets/icons/chevron-right.png" alt=""></div>
+      <div class="step-arrow a2"><img src="assets/icons/chevron-right.png" alt=""></div>
+      <div class="step"><img src="assets/hiw-1-map.png" alt="Step 1: Friend invites you. An existing user places an invitation (with a code) at a Geo-location near you."></div>
+      <div class="step"><img src="assets/hiw-2-user.png" alt="Step 2: Sign-up using google. Using the app, click sign-in and choose your username."></div>
+      <div class="step"><img src="assets/hiw-3-chest.png" alt="Step 3: Find your invite. Locate the invitation on the map, input the code, it'll ask you for a selfie, and that's it!"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FEATURES ============================= -->
+<section class="features section" id="features">
+  <span class="deco circle" style="width:22px;height:22px;background:var(--orange);left:8%;top:4%"></span>
+  <span class="deco tri" style="left:90%;top:6%;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:24px solid var(--red);opacity:.85"></span>
+  <div class="container">
+    <div class="eyebrow">
+      <span class="kicker">What</span>
+      <h2>Features You Will Get</h2>
+    </div>
+
+    <div class="feature">
+      <div class="feature-text">
+        <h3>Post - Write - Ask Question's</h3>
+        <p>Enjoy the freedom to share short updates, pen comprehensive articles, or tap into community wisdom through Q&amp;A, all enhanced with image and video support.</p>
+        <a href="#" class="btn btn-primary">Learn More</a>
+      </div>
+      <div class="feature-media">
+        <div class="cluster trio">
+          <img class="phone p-left"  src="assets/feat-post-1.png" alt="Rep feed">
+          <img class="phone p-mid"   src="assets/feat-post-3.png" alt="Rep articles">
+          <img class="phone p-right" src="assets/feat-post-2.png" alt="Rep questions">
+        </div>
+      </div>
+    </div>
+
+    <div class="feature reverse">
+      <div class="feature-text">
+        <h3>Craft Your Bio</h3>
+        <p>Design your unique profile page to show off the real you.</p>
+        <a href="#" class="btn btn-primary">Learn More</a>
+      </div>
+      <div class="feature-media">
+        <div class="cluster bio">
+          <img class="phone" src="assets/feat-bio-phone.png" alt="Rep profile phone">
+          <img class="bio-photo" src="assets/feat-bio-img.png" alt="User profile portrait">
+        </div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-text">
+        <h3>Embark on Adventures</h3>
+        <p>At the heart of Rep is the empowering ability to create treasure hunts, a unique feature that brings stories to life and adds a deeper layer of meaning to social interactions.</p>
+        <a href="#" class="btn btn-primary">Learn More</a>
+      </div>
+      <div class="feature-media">
+        <div class="cluster trio">
+          <img class="phone p-left"  src="assets/feat-adv-1.png" alt="Treasure hunt map">
+          <img class="phone p-mid"   src="assets/feat-adv-2.png" alt="Treasure hunt clue">
+          <img class="phone p-right" src="assets/feat-adv-3.png" alt="Treasure hunt reward">
+        </div>
+      </div>
+    </div>
+
+    <div class="feature reverse">
+      <div class="feature-text">
+        <h3>Earn as You Engage</h3>
+        <p>Opt-in for tailored ads and turn your attention into rewards. With Rep, every interaction has value.</p>
+        <a href="#" class="btn btn-primary">Learn More</a>
+      </div>
+      <div class="feature-media">
+        <div class="cluster earn">
+          <img class="phone p-left"  src="assets/feat-earn-1.png" alt="Rewards feed">
+          <img class="phone p-right" src="assets/feat-earn-2.png" alt="Rewards map">
+          <img class="coupon" src="assets/feat-coupon.png" alt="Save 50% coupon: Dinner for 2 at Earls">
+        </div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-text">
+        <h3>Truly private messaging</h3>
+        <p>Experience secure communication like never before. With Rep, your messages stay yours - completely private and fully encrypted by the block-chain for absolute peace of mind.</p>
+        <a href="#" class="btn btn-primary">Learn More</a>
+      </div>
+      <div class="feature-media">
+        <div class="cluster duo">
+          <img class="phone p-left"  src="assets/feat-priv-1.png" alt="Private chat list">
+          <img class="phone p-right" src="assets/feat-priv-2.png" alt="Encrypted message">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= DESKTOP BAND ============================= -->
+<section class="desktop-band">
+  <span class="deco ring" style="width:26px;height:26px;border:4px solid rgba(255,255,255,.6);left:80%;top:66%"></span>
+  <div class="container">
+    <div class="desktop-inner">
+      <div class="desktop-img"><img src="assets/desktop.png" alt="Rep running on desktop browser"></div>
+      <div class="desktop-copy">
+        <span class="kick">Also Available on</span>
+        <h2>Desktop</h2>
+        <p>Open Rep.run on your favorite browser and experience the full app features in desktop environment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AR / AI ============================= -->
+<section class="arai section" id="arai">
+  <span class="deco tri" style="left:14%;top:34%;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:26px solid var(--orange);opacity:.75"></span>
+  <span class="deco circle" style="width:18px;height:18px;background:var(--green);right:14%;top:36%"></span>
+  <span class="deco ring" style="width:26px;height:26px;border:4px solid var(--purple);right:30%;top:8%"></span>
+  <div class="container">
+    <div class="eyebrow">
+      <span class="kicker">Beyond Reality</span>
+      <h2>Explore the Wonders of<br>AR and AI</h2>
+      <p class="sub">Our App is constantly being updated with new tech of the future</p>
+    </div>
+    <div class="ar-visual">
+      <img src="assets/ar-cluster.png" alt="Rep AR and AI features shown with an Apple Vision Pro headset, an in-app map, AR treasure chests, and invitations">
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CONTACT ============================= -->
+<section class="contact section" id="contact">
+  <span class="deco diamond" style="width:52px;height:52px;left:18%;top:20%;opacity:.85"></span>
+  <span class="deco circle" style="width:22px;height:22px;background:var(--indigo);right:10%;top:14%"></span>
+  <div class="container">
+    <div class="eyebrow">
+      <span class="kicker">Get in touch</span>
+      <h2>Write us a message</h2>
+      <p class="sub">We would love to hear from you!</p>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="field name"><input class="input" type="text" placeholder="Name" aria-label="Name" required></div>
+      <div class="field email"><input class="input" type="email" placeholder="Email Address" aria-label="Email address" required></div>
+      <div class="field message"><textarea class="textarea" placeholder="Your message..." aria-label="Message"></textarea></div>
+      <button class="send-btn" type="submit">Send</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="#" class="brand" aria-label="Rep home">
+          <img class="logo" src="assets/icons/logo-footer.png" alt="Rep logo" width="48" height="48">
+          <span class="word">Rep</span>
+        </a>
+      </div>
+      <div class="footer-col">
+        <div class="download-label">Download App <img src="assets/icons/download-arrow.png" alt=""></div>
+        <div class="badges">
+          <a href="https://play.google.com/store/apps/details?id=com.rawbots.rep&hl=en" target="_blank" class="badge-img" aria-label="Get it on Google Play"><img src="assets/icons/badge-google-light.png" alt="Get it on Google Play"></a>
+          <a href="https://apps.apple.com/us/app/rep-run/id6446437794" target="_blank" class="badge-img" aria-label="Download on the App Store"><img src="assets/icons/badge-apple-light.png" alt="Download on the App Store"></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <form class="newsletter" onsubmit="return false">
+          <input type="email" placeholder="Email Address" aria-label="Newsletter email">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <div class="social">
+          <a href="https://www.youtube.com/@rawbots6857" target="_blank" aria-label="YouTube"><img src="assets/icons/youtube.png" alt="YouTube"></a> 
+          <a href="https://x.com/rep_run" target="_blank" aria-label="Twitter"><img src="assets/icons/twitter.png" alt="Twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2023 Rep.</span>
+      <div class="legal">
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top"><img src="assets/icons/chevron-up.png" alt=""></button>
+
+<script>
+  var header = document.getElementById('siteHeader');
+  document.getElementById('navToggle').addEventListener('click', function(){ header.classList.toggle('open'); });
+  header.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', function(){ header.classList.remove('open'); }); });
+  var toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){ toTop.classList.toggle('show', window.scrollY > 500); });
+  toTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+  document.getElementById('contactForm').addEventListener('submit', function(e){ e.preventDefault(); alert('Thanks! Your message has been sent.'); this.reset(); });
+</script>
+</body>
+</html>
